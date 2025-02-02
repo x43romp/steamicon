@@ -34,22 +34,27 @@ goto :eof
 :fix
 
 :: gameid, filepath, filename
+echo SOURCE "%~1"
 for /f "tokens=3 delims=/" %%A in ('findstr /R "^URL=steam://rungameid/.*" "%~1"') do set "gameid=%%A"
 for /f "tokens=2 delims==" %%A in ('findstr /R "IconFile=.*" "%~1"') do set "filepath=%%A"
 for /d %%I in ("%filepath%") do set "filename=%%~nxI"
+
+if "%filepath%"=="" (
+    echo Unable to get game info
+    exit /b 1
+)
 
 echo ----
 echo ----
 echo SHORTCUT %~1
 echo GAME %gameid% - %filename%
 echo FILE %filepath% 
+echo URI https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/%gameid%/%filename%
 
 if exist "%filepath%" (
     echo Icon exists
 ) else (
-    set "iconurl=https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/%gameid%/%filename%"
-    echo URL %iconurl%
-    powershell -Command "Invoke-WebRequest -Uri '%iconurl%' -OutFile '%filepath%'"
+    powershell -Command "Invoke-WebRequest -Uri 'https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/%gameid%/%filename%' -OutFile '%filepath%'"
     echo Success! Icon downloaded
 )
 
