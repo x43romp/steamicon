@@ -1,5 +1,9 @@
 @echo off
 
+@REM ====================
+@REM Determine if file or folder
+@REM ====================
+
 if "%~1"=="" (
     echo Drag a file into the script
     timeout /t 1 > nul
@@ -7,10 +11,10 @@ if "%~1"=="" (
 )
 
 if exist "%~1/" (
-    goto :directory %~1
+    goto :scanDirectory %~1
     pause
 ) else if exist "%~1" (
-    call :fix "%~1"
+    call :fixShortcut "%~1"
     pause
 ) else (
     echo Cannot find file %1
@@ -18,20 +22,25 @@ if exist "%~1/" (
     exit /b
 )
 
-goto :eof
+exit /b
 
+@REM ====================
+@REM Scan Directory
+@REM ====================
 
-:: fix function
-
-:directory
+:scanDirectory
 echo Processing folder %1
 for /f "delims=" %%f in ('dir "%~1\*.url" /b') do (
-    call :fix "%~1\%%f"
+    call :fixShortcut "%~1\%%f"
 )
 pause
-goto :eof
+exit /b
 
-:fix
+@REM ====================
+@REM Fix Shortcut
+@REM ====================
+
+:fixShortcut
 
 :: gameid, filepath, filename
 echo SOURCE "%~1"
