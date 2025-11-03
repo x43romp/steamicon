@@ -12,9 +12,11 @@
   "app": {
     "windows": [
       {
-        "title": "steamicon-app",
-        "width": 800,
-        "height": 600
+        "title": "Steam Icon",
+        "width": 400,
+        "height": 720,
+        "minWidth": 320,
+        "minHeight": 640
       }
     ],
     "security": {
