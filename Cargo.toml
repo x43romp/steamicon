@@ -5,4 +5,6 @@ edition = "2024"
 
 [dependencies]
 regex = "1.12.2"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.145"
 windows-registry = "0.6.1"

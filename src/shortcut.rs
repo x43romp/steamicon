@@ -1,8 +1,9 @@
 use std::{fmt::Debug, io, path::PathBuf};
 
 use regex::Regex;
+use serde::{Deserialize, Serialize};
 
-#[derive(Clone)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Shortcut {
     path: PathBuf,
     pub appid: u32,
@@ -10,7 +11,7 @@ pub struct Shortcut {
     pub icon: Icon,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Icon {
     pub path: Option<PathBuf>,
     pub hash: Option<String>,
